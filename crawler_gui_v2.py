@@ -102,11 +102,11 @@ def start_btn():
     # driver = webdriver.Chrome(ChromeDriverManager(version='108.0.5359.71').install())   #-----------------
     driver.get("https://www.facebook.com")
    
-    username = driver.find_element(By.NAME, 'email')
-    username.send_keys("firstphawit@hotmail.com")
-    password = driver.find_element(By.NAME, 'pass')
-    password.send_keys("Signal3499")
-    password.send_keys(Keys.ENTER)
+    #username = driver.find_element(By.NAME, 'email')
+    #username.send_keys("")
+    #password = driver.find_element(By.NAME, 'pass')
+    #password.send_keys("")
+    #password.send_keys(Keys.ENTER)
 
 
 def add_target():
