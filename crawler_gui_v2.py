@@ -689,7 +689,7 @@ Label(text='collect posts :').grid(row=1, column=0,sticky=E)
 
 box.grid(row=0, column=1,sticky=NW,ipadx=100,columnspan=2)
 sc_var=StringVar()
-scale_bar = Scale(variable=sc_var,from_=0, to=30, orient=HORIZONTAL).grid(row=1, column=1,sticky=EW,columnspan=2)
+scale_bar = Scale(variable=sc_var,from_=0, to=50, orient=HORIZONTAL).grid(row=1, column=1,sticky=EW,columnspan=2)
 sc_var.set(1)
 
 gen_checkboxs()
