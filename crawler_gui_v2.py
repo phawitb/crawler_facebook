@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 import base64
 from PIL import Image
 from io import BytesIO
-# from webdriver_manager.chrome import ChromeDriverManager   #-------
+from webdriver_manager.chrome import ChromeDriverManager   #-------
 
 if not os.path.exists('data/all'):
     os.makedirs('data/all')
@@ -47,7 +47,7 @@ def find_emotion(link):
             label = 'love'
         elif blue > 0.1:
             label = 'like'
-        elif red > 0.1 and not blue:
+        elif red > 0.1 and blue < 0.001:
             label = 'care'
         elif not blue and not red:
             label = 'wow'
@@ -98,15 +98,15 @@ def create_date(dd):
 
 def start_btn():
     global driver
-    driver = webdriver.Chrome()
-    # driver = webdriver.Chrome(ChromeDriverManager(version='108.0.5359.71').install())   #-----------------
+    # driver = webdriver.Chrome()
+    driver = webdriver.Chrome(ChromeDriverManager(version='108.0.5359.71').install())   #-----------------
     driver.get("https://www.facebook.com")
    
-    #username = driver.find_element(By.NAME, 'email')
-    #username.send_keys("")
-    #password = driver.find_element(By.NAME, 'pass')
-    #password.send_keys("")
-    #password.send_keys(Keys.ENTER)
+    username = driver.find_element(By.NAME, 'email')
+    username.send_keys("firstphawit@hotmail.com")
+    password = driver.find_element(By.NAME, 'pass')
+    password.send_keys("Signal3499")
+    password.send_keys(Keys.ENTER)
 
 
 def add_target():
@@ -118,12 +118,18 @@ def add_target():
     for person in TARGET_FBS:
         if person not in person_NAME.keys(): 
             driver.get(person)
-            try:
-                fb_name = '/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[1]/div[2]/div/div/div/div[3]/div/div/div[1]/div/div/span/div/h1'
-                fb_name = driver.find_element(By.XPATH,fb_name).text
-            except:
-                fb_name = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div/div[3]/div/div/div/div/div/div/span'
-                fb_name = driver.find_element(By.XPATH,fb_name).text
+
+            xpaths = ['/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[1]/div[2]/div/div/div/div[3]/div/div/div[1]/div/div/span/div/h1',
+                      '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div/div[3]/div/div/div/div/div/div/span',
+                      '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[1]/div[2]/div/div/div/div[2]/div/div/div[1]/h2/span/span']
+
+            fb_name = find_text(xpaths)
+            # try:
+            #     fb_name = '/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[1]/div[2]/div/div/div/div[3]/div/div/div[1]/div/div/span/div/h1'
+            #     fb_name = driver.find_element(By.XPATH,fb_name).text
+            # except:
+            #     fb_name = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/div/div[3]/div/div/div/div/div/div/span'
+            #     fb_name = driver.find_element(By.XPATH,fb_name).text
             person_NAME[person] = fb_name
 
     out_file = open("fb_name.json", "w")
@@ -166,6 +172,18 @@ def select_all():
     print('select_all')
     
 
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[{i}]/div[2]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[2]/div[{i}]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[2]/div[3]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div/div/div/div[{i}]/div[2]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div/div/div/div[2]/div[{i}]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[{i}]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+# /html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[3]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a
+
 def gen_post_links(target_fb,N_TARGET):
     def get_link(i):
         l = [f'/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[2]/div[3]/div[{i}]/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a',
@@ -173,6 +191,11 @@ def gen_post_links(target_fb,N_TARGET):
              f'/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[2]/div[2]/div[{i}]/div[2]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[3]/span/a',
              f'/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[2]/div[2]/div[2]/div[{i}]/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[3]/span/a',
              f'/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[2]/div[2]/div[{i}]/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a',
+             f'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[{i}]/div[2]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a',            
+             f'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[2]/div[{i}]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a',
+             f'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div/div/div/div[{i}]/div[2]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a',
+             f'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div/div/div/div[2]/div[{i}]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a',
+             f'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div/div[2]/div[2]/div/div/div[{i}]/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[2]/span/span/span[2]/span/a'
             ]
         for p in l:
             try:
@@ -275,6 +298,7 @@ def get_detail(link):
     def get_fdetail(link):
         print(link)
         driver.get(link)
+        time.sleep(3)
 
         location = ''
 
@@ -289,7 +313,10 @@ def get_detail(link):
         # print('date',date)
 
         n_likes = ['/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[4]/div/div/div[1]/div/div[1]/div/div[1]/div/span/div/span[2]/span/span',
-                   '/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[4]/div/div/div[1]/div/div[1]/div/div[1]/div/span/div/span[1]/span/span']
+                   '/html/body/div[1]/div[1]/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/div/div[4]/div/div/div[1]/div/div[1]/div/div[1]/div/span/div/span[1]/span/span',
+                   '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div/div/div/div/div/div/div/div[1]/div/div[2]/div/div/div[4]/div/div/div[1]/div/div[1]/div/div[1]/div/span/div/span[2]',
+                   '/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div[2]/div/div/div[2]/div[1]/div/div[1]/div/div/div[2]/div[1]/div/div[1]/div/span/div/span[2]/span/span'
+                  ]
         n_like = find_text(n_likes)
         # print('n_like',n_like)
 
