@@ -16,7 +16,7 @@ import base64
 from PIL import Image
 from io import BytesIO
 import configparser
-from webdriver_manager.chrome import ChromeDriverManager   #-------
+# from webdriver_manager.chrome import ChromeDriverManager   #-------
 
 if not os.path.exists('data/all'):
     os.makedirs('data/all')
@@ -114,15 +114,15 @@ def create_date(dd):
 
 def start_btn():
     global driver
-    # driver = webdriver.Chrome()
-    driver = webdriver.Chrome(ChromeDriverManager(version='108.0.5359.71').install())   #-----------------
+    driver = webdriver.Chrome()
+#     driver = webdriver.Chrome(ChromeDriverManager(version='108.0.5359.71').install())   #-----------------
     driver.get("https://www.facebook.com")
    
-    username = driver.find_element(By.NAME, 'email')
-    username.send_keys("firstphawit@hotmail.com")
-    password = driver.find_element(By.NAME, 'pass')
-    password.send_keys("Signal3499")
-    password.send_keys(Keys.ENTER)
+#     username = driver.find_element(By.NAME, 'email')
+#     username.send_keys("")
+#     password = driver.find_element(By.NAME, 'pass')
+#     password.send_keys("")
+#     password.send_keys(Keys.ENTER)
 
 
 def add_target():
